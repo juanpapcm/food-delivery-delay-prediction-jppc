@@ -75,10 +75,12 @@ jupyter notebook eda_for_mds.ipynb
 
 ## 💡 Author Note
 
-This project was executed with the support of GenAI tools (ChatGPT) for structuring markdowns and debugging logic. All code was validated and manually tested. See `strategy/strategic_reflections.md` for strategic reflections and deployment plan.
+This project was executed with the support of GenAI tools (ChatGPT) for formatting the markdown files and some of the troubleshooting. All code was human input made by Juan Pablo Perez-Cerda. See `strategy/strategic_reflections.md` for strategic reflections and deployment plan.
 
 ---
 
 ## 📬 Contact
 
 Feel free to reach out via GitHub or LinkedIn with any questions.
+
+👉 Local Swagger UI: http://127.0.0.1:8000/docs
