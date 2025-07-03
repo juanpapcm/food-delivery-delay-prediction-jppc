@@ -57,7 +57,7 @@ PYTHONPATH=. python model_pipeline/train_model.py
 3. **Run explainability analysis**:
 
 ```bash
-jupyter notebook explainability_analysis.ipynb
+jupyter notebook eda_for_mds.ipynb
 ```
 
 4. **(Optional)** Predict on new data with `predict.py`.
