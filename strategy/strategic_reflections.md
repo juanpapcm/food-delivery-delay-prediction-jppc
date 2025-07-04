@@ -27,9 +27,8 @@
 ## 3. GenAI Disclosure: How I used generative AI
 
 - Used ChatGPT to:
-  - Structure the project folder
-  - Debug errors in Python from errors primarily
-  - Draft the initial version of SQL queries and format the markdown files
+  - Help with the structure of the project folder
+  - Help with some errors the environment settings and its installations
 - **Validation**:
   - Ran all code myself
   - Cross-checked outputs from any AI-generated suggestion
