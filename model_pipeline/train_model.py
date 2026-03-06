@@ -3,6 +3,8 @@ import joblib
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error
 from model_pipeline.preprocess import load_data, preprocess, split_data
+
+
 def train():
     print("🔄 Loading data...")
     df = load_data("data/train.csv")
