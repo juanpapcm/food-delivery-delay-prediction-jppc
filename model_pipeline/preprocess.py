@@ -18,14 +18,14 @@ def preprocess(df):
     if missing_cols:
         raise ValueError(f"Missing required columns: {missing_cols}")
 
-    df = df.dropna(subset=REQUIRED_COLUMNS)
+    df = df.dropna(subset=REQUIRED_COLUMNS).copy()
 
     df['Weather'] = df['Weather'].astype('category').cat.codes
     df['Traffic_Level'] = df['Traffic_Level'].astype('category').cat.codes
     df['Time_of_Day'] = df['Time_of_Day'].astype('category').cat.codes
     df['Vehicle_Type'] = df['Vehicle_Type'].astype('category').cat.codes
 
-    df = df.drop(columns=["Order_ID"])
+    df = df.drop(columns=["Order_ID"], errors='ignore')
     return df
 
 def split_data(df, target_column='Delivery_Time_min'):

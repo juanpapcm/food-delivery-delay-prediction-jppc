@@ -1,13 +1,30 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import joblib
 import pandas as pd
 
-# Load the trained model
-model = joblib.load("model_pipeline/model.pkl")
+# Load the trained model once at startup; fail early with a clear message
+try:
+    model = joblib.load("model_pipeline/model.pkl")
+except FileNotFoundError:
+    raise RuntimeError(
+        "model_pipeline/model.pkl not found. "
+        "Run `PYTHONPATH=. python model_pipeline/train_model.py` first."
+    )
 
 # Initialize FastAPI app
 app = FastAPI(title="Delivery Time Prediction API")
+
+# Feature order must match the order used during training
+COLUMN_ORDER = [
+    'Distance_km',
+    'Weather',
+    'Traffic_Level',
+    'Time_of_Day',
+    'Vehicle_Type',
+    'Preparation_Time_min',
+    'Courier_Experience_yrs',
+]
 
 # Define the expected input data schema
 class DeliveryInput(BaseModel):
@@ -21,26 +38,9 @@ class DeliveryInput(BaseModel):
 
 @app.post("/predict")
 def predict_delivery_time(data: DeliveryInput):
+    input_df = pd.DataFrame([data.model_dump()])[COLUMN_ORDER]
     try:
-        # Convert to DataFrame
-        input_df = pd.DataFrame([data.dict()])
-
-        # Ensure correct column order
-        column_order = [
-            'Distance_km',
-            'Weather',
-            'Traffic_Level',
-            'Time_of_Day',
-            'Vehicle_Type',
-            'Preparation_Time_min',
-            'Courier_Experience_yrs'
-        ]
-        input_df = input_df[column_order]
-
-        # Predict
         prediction = model.predict(input_df)[0]
-        return {"predicted_delivery_time_min": round(prediction, 2)}
-    
     except Exception as e:
-        print("❌ Prediction failed:", str(e))
-        return {"error": str(e)}
+        raise HTTPException(status_code=500, detail=f"Prediction failed: {e}")
+    return {"predicted_delivery_time_min": round(float(prediction), 2)}
